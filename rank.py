@@ -135,7 +135,7 @@ def main():
         })
 
     df = pd.DataFrame(results).sort_values(by="score", ascending=False).head(TOP_N)
-    df.insert(1, "rank", range(1, TOP_N + 1))
+    df.insert(1, "rank", range(1, len(df) + 1))
     df.to_csv(args.out, index=False)
     log(t_start, "Pipeline Finished.")
 
