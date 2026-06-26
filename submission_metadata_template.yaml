@@ -1,0 +1,94 @@
+# Redrob Hackathon — Submission Metadata Template
+#
+# Copy this file to your repo root as `submission_metadata.yaml` and fill it in.
+# The fields here should match what you submit via the portal at upload time.
+# Stage 3 review uses this file to verify your portal metadata.
+
+# ============================================================================
+# Team identity
+# ============================================================================
+team_name: "TechNova Squad"  # Used in leaderboard and announcements
+
+primary_contact:
+  name: "Ponnusamy m"
+  email: "ponnusamy133122@gmail.com"   # Used for all organizer communication
+  phone: "+91-6374191845"        # Used for top-50 / top-10 outreach
+
+team_members:
+  - name: "Ponnusamy m"
+    email: "ponnusamy133122@gmail.com"
+    role: "Lead Data Architect"          # Optional, e.g. "Team Lead", "Backend", "Data"
+  - name: "Kishor j"
+    email: "kishorkishor0854@gmail.com"
+    role: "ML Engineer"
+  # Add more members as needed; solo participants list just one member
+
+# ============================================================================
+# Code and reproducibility
+# ============================================================================
+github_repo: "https://github.com/aak3000010-art/india-runs-track1.git"
+# Required. Must be reachable. Private repos OK if you can grant organizer
+# access at Stage 3 (the email to add will be communicated then).
+
+sandbox_link: "https://colab.research.google.com/drive/1ijzHB4atAtLEploe-t85zvMv32Fq4VMb?usp=sharing"
+# Required. A working hosted environment where the ranker can be run on a small
+# candidate sample. See Section 10.5 of submission_spec.md for acceptable
+# platforms (HuggingFace Spaces, Streamlit Cloud, Replit, Colab, Docker, Binder).
+
+reproduce_command: "python rank.py --candidates ./candidates.jsonl --out ./submission.csv --precomputed-dir ./precomputed"
+# The single command that produces submission.csv from candidates.jsonl.
+# Should run end-to-end within 5 minutes on CPU with 16GB RAM and no network.
+
+# ============================================================================
+# Compute environment
+# ============================================================================
+compute:
+  platform: "Dell Latitude 5400"                # Or: "AWS EC2 c5.4xlarge", "Local Linux box", etc.
+  cpu_cores: 4                                  # Number of CPU cores used
+  ram_gb: 8                                     # Available RAM in GB
+  python_version: "3.10"                      # python --version
+  os: "Windows 11 64-bit"                       # Or "Ubuntu 22.04 LTS", etc.
+  uses_gpu_for_inference: false                 # Must be false — see compute constraints
+  has_network_during_ranking: false             # Must be false — no API calls during ranking
+  pre_computation_required: true                # true if you pre-compute embeddings or train models offline
+  pre_computation_time_minutes: 30               # Approximate, if applicable
+
+# ============================================================================
+# AI tools declaration
+# ============================================================================
+# Transparency only — declared use is NOT penalized. Be honest. Stage 5 interview
+# may verify these declarations against your code; declarations that contradict
+# your code or your interview are flagged.
+ai_tools_used:
+  - "Claude"        # e.g. for architecture discussion, code review
+  - "Gemini"  # e.g. for autocomplete
+  # Other options: "ChatGPT", "Cursor", "Gemini", "Codeium", "Other", "None"
+
+ai_usage_summary: |
+  -"Used Claude for initial data staging and architectural drafting."
+  -"Used Gemini for complex logic gating, pipeline debugging, auditing the Top 100 raw JSON output, and formatting the final pipeline."
+  -"No raw candidate data was fed to any LLM."
+  -"all validation was done via local Python extraction scripts."
+ 
+
+# ============================================================================
+# Approach summary (optional but recommended)
+# ============================================================================
+methodology_summary: |
+  "Multi-stage deterministic filtering pipeline. 
+  Stage 1: Semantic embedding similarity against the JD using precomputed vectors to bypass compute limits. 
+  Stage 2: Hard logic gating to instantly drop candidates violating location constraints 
+  (e.g., non-relocating candidates outside target cities) or possessing pure consulting backgrounds. 
+  Stage 3: Behavioral modification using a smooth linear decay for notice periods and penalties for platform inactivity. 
+  Stage 4: Honeypot defense via logical consistency checks (e.g., zero-duration expert skills, non-technical current titles).
+  Runs in ~16.3s on CPU."
+  
+# ============================================================================
+# Declarations
+# ============================================================================
+declarations:
+  read_submission_spec: true        # I have read submission_spec.md in full
+  code_is_original_work: true       # My code is my team's original work (using AI as a tool is fine)
+  no_collusion: true                # I have not coordinated my submission with other teams
+  honeypot_check_done: true         # OPTIONAL — set true if you explicitly checked for honeypots in your ranking
+  reproduction_tested: true         # I have tested that my reproduce_command runs end-to-end
